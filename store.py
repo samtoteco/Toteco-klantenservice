@@ -139,3 +139,16 @@ def aggregatie_onderwerpen():
         "per_onderwerp": [dict(r) for r in per_onderwerp],
         "per_sentiment": [dict(r) for r in per_sentiment],
     }
+
+
+def aggregatie_bereikbaarheid():
+    """Telt alle binnengekomen gesprekken per status (bereikbaarheidsmeting)."""
+    with _conn() as con:
+        per_status = con.execute(
+            "SELECT status, COUNT(*) n FROM calls GROUP BY status"
+        ).fetchall()
+        totaal = con.execute("SELECT COUNT(*) n FROM calls").fetchone()["n"]
+    return {
+        "totaal_gesprekken": totaal,
+        "per_status": [dict(r) for r in per_status],
+    }

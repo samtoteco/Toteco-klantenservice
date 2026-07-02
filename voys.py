@@ -52,5 +52,3 @@ def haal_samenvatting(call_id):
         return None, "fout"
     except requests.RequestException:
         return None, "fout"
-    except requests.RequestException:
-        return None, "fout"

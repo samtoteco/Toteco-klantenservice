@@ -39,11 +39,12 @@ ANALYSIS_MODEL = os.environ.get("ANALYSIS_MODEL", "claude-haiku-4-5-20251001")
 # Lage temperatuur = zo deterministisch mogelijke classificatie.
 ANALYSIS_TEMPERATURE = float(os.environ.get("ANALYSIS_TEMPERATURE", "0"))
 
-# ── Transcript-ophaal (AANNAME: pollen met backoff) ────────────
+# ── Transcript-ophaal (non-blocking) ───────────────────────────
 # Er is nog niet bevestigd of Voys een "transcript gereed"-event stuurt.
-# Tot die tijd pollen we het transcript-endpoint met oplopende wachttijd.
+# We wachten NIET binnen het verzoek. Elke process-run doet één poging;
+# na TRANSCRIPT_MAX_POGINGEN runs zonder transcript concluderen we
+# 'geen opname' (binnengekomen, niet opgenomen).
 TRANSCRIPT_MAX_POGINGEN = int(os.environ.get("TRANSCRIPT_MAX_POGINGEN", "5"))
-TRANSCRIPT_BACKOFF_START_S = int(os.environ.get("TRANSCRIPT_BACKOFF_START_S", "30"))
 
 # ── Opslag ─────────────────────────────────────────────────────
 # SQLite voor Fase 1 (geen infra nodig, direct testbaar).
